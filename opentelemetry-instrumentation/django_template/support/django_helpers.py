@@ -19,12 +19,11 @@ class CustomModelAdminMixin:
         if not self.readonly_fields:
             self.readonly_fields = ["created_at", "updated_at"]
         if not self.raw_id_fields:
-            # Only for FOREIGN KEY fields
-            raw_id_fields = []
-            for key, value in model._meta._forward_fields_map.items():
-                if type(value) is ForeignKey and not key.endswith("id"):
-                    raw_id_fields.append(key)
-            if raw_id_fields:
+            if raw_id_fields := [
+                key
+                for key, value in model._meta._forward_fields_map.items()
+                if type(value) is ForeignKey and not key.endswith("id")
+            ]:
                 self.raw_id_fields = raw_id_fields
         super(CustomModelAdminMixin, self).__init__(model, admin_site)
 
