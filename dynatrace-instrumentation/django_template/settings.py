@@ -23,8 +23,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = strtobool(os.getenv("DJANGO_DEBUG", "False"))
 
-DJANGO_ALLOWED_HOSTS: Optional[str] = os.getenv("ALLOWED_HOSTS")
-if DJANGO_ALLOWED_HOSTS:
+if DJANGO_ALLOWED_HOSTS := os.getenv("ALLOWED_HOSTS"):
     EXTRA_ALLOWED_HOST: Optional[str] = os.getenv("EXTRA_ALLOWED_HOST")
     FINAL_ALLOWED_HOSTS = f"{DJANGO_ALLOWED_HOSTS},{EXTRA_ALLOWED_HOST}" if EXTRA_ALLOWED_HOST else DJANGO_ALLOWED_HOSTS
     ALLOWED_HOSTS = FINAL_ALLOWED_HOSTS.split(",")
@@ -265,12 +264,10 @@ if DEBUG and USE_DEBUG_APPS:
     DEBUG_TOOLBAR_CONFIG = {"SHOW_TOOLBAR_CALLBACK": (lambda request: True)}
     INTERNAL_IPS = ["0.0.0.0"]
 
-    DEBUG_APPS = os.getenv("DEBUG_APPS")
-    if DEBUG_APPS:
+    if DEBUG_APPS := os.getenv("DEBUG_APPS"):
         INSTALLED_APPS += DEBUG_APPS.split(",")
 
-    DEBUG_MIDDLEWARE = os.getenv("DEBUG_MIDDLEWARE")
-    if DEBUG_MIDDLEWARE:
+    if DEBUG_MIDDLEWARE := os.getenv("DEBUG_MIDDLEWARE"):
         MIDDLEWARE += DEBUG_MIDDLEWARE.split(",")
 
 # STOMP

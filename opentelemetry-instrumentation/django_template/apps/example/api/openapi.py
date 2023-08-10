@@ -105,14 +105,10 @@ def create_inline_serializer_with_custom_config(
     common_error_detail_fields = {"requestId": uuid.uuid4(), "msg": "string"}
 
     if include_field_related_errors:
-        common_error_detail_fields.update(
-            {
-                "field_related_errors": {
-                    "field_name_1": ["errors"],
-                    "field_name_2": ["errors"],
-                }
-            }
-        )
+        common_error_detail_fields["field_related_errors"] = {
+            "field_name_1": ["errors"],
+            "field_name_2": ["errors"],
+        }
 
     return {
         "error": serializers.JSONField(default=common_error_detail_fields),
